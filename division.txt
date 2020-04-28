@@ -1,0 +1,40 @@
+class Solution {
+    public int divide(int dividend, int divisor) {
+        if(dividend==Integer.MIN_VALUE&&divisor==-1)
+            return Integer.MAX_VALUE;
+        boolean flag=dividend>0&&divisor>0||dividend<0&&divisor<0;
+        long absDividend=Math.abs((long)dividend);
+	    long absDivisor=Math.abs((long)divisor);
+        
+        int ans=0;
+        long remainder=0;
+        int len=getLength(absDividend);
+        
+        while(len>0){
+             int bit=getBit(absDividend,len--);
+             remainder=(remainder<<1)+bit;
+             if(remainder<absDivisor)
+                 ans=ans<<1;
+             else{
+                 ans=(ans<<1)+1;
+                 remainder=remainder-absDivisor;
+             }      
+         }
+        return flag?ans:-ans;
+    }
+    public  int getLength(long num){
+        int len=0;
+        while(num!=0){
+            num=num>>1;
+            len++;
+        }
+        return len;
+    }
+    public  int getBit(long num,int index){
+        int i=index-1;
+        if(((num&(1<<i))>>i)==1)
+            return 1;
+        else
+            return 0;
+    }
+}
